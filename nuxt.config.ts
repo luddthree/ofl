@@ -1,6 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
 export default defineNuxtConfig({
+  modules: ['@pinia/nuxt'],
+  plugins: ['~/plugins/auth.js'],
   runtimeConfig: {
     public: {
       apiBase: 'http://127.0.0.1:8000' // Laravel API URL

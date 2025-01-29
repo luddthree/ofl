@@ -1,0 +1,68 @@
+<template>
+    <div class="max-w-md mx-auto mt-10">
+      <h1 class="text-2xl font-bold mb-4">Login</h1>
+      <p> {{ authStore.user?.name }}</p>
+      <form @submit.prevent="login">
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-medium">Email</label>
+          <input
+            id="email"
+            v-model="form.email"
+            type="email"
+            class="w-full border rounded-md p-2"
+            placeholder="Enter your email"
+          />
+        </div>
+        <div class="mb-4">
+          <label for="password" class="block text-sm font-medium">Password</label>
+          <input
+            id="password"
+            v-model="form.password"
+            type="password"
+            class="w-full border rounded-md p-2"
+            placeholder="Enter your password"
+          />
+        </div>
+        <button type="submit" class="w-full bg-blue-500 text-white rounded-md p-2">Login</button>
+      </form>
+      <div v-if="error" class="text-red-500 mt-4">{{ error }}</div>
+      <div>
+        <p></p><a href="/register" class="text-gray-800 mt-3">Don't have an account? Register here.</a>
+      </div>
+    </div>
+  </template>
+  
+  <script setup>
+  import { ref } from 'vue'
+  import { useAuthStore } from '~/stores/auth'
+  
+  // Initialize the form object
+  const form = ref({
+    email: '',
+    password: '',
+  })
+  
+  const error = ref(null)
+  const authStore = useAuthStore()
+  
+  async function login() {
+    try {
+      const response = await $fetch('http://127.0.0.1:8000/api/login', {
+        method: 'POST',
+        body: form.value,
+      })
+  
+      if (response.token) {
+        authStore.setToken(response.token)
+        navigateTo('/dashboard')
+      }
+    } catch (err) {
+      error.value = err?.data?.error || 'An error occurred during login.'
+      console.error(err)
+    }
+  }
+  </script>
+  
+  <style scoped>
+  /* Optional styling */
+  </style>

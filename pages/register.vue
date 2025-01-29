@@ -52,6 +52,9 @@
         <button type="submit" class="w-full bg-blue-500 text-white rounded-md p-2">Register</button>
       </form>
       <div v-if="error" class="text-red-500 mt-4">{{ error }}</div>
+      <div>
+        <p></p><a href="/login" class="text-gray-800 mt-3">Already a user? Log in here.</a>
+      </div>
     </div>
   </template>
   
