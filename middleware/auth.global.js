@@ -3,7 +3,7 @@ import { useAuthStore } from '~/stores/auth'
 export default defineNuxtRouteMiddleware(async (to, from) => {
   const authStore = useAuthStore()
 
-  const publicRoutes = ['/login', '/dashboard', '/register', '/admin']
+  const publicRoutes = ['/login', '/dashboard', '/register', '/admin', '/profile']
   if (publicRoutes.includes(to.path)) {
     console.log('Public route accessed:', to.path)
     return

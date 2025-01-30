@@ -21,6 +21,9 @@
               <a href="/admin" class="block px-4 py-2 hover:bg-gray-100">Admin</a>
             </li>
             <li>
+              <a href="/profile" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
+            </li>
+            <li>
               <a @click="logout" href="/" class="block px-4 py-2 hover:bg-gray-100">Log Out</a>
             </li>
           </ul>

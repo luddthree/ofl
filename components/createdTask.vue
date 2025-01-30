@@ -4,7 +4,7 @@
 
         <ul v-if="taskStore.createdTasks?.length">
             <li v-for="task in taskStore.createdTasks" :key="task.id"
-                class="border p-4 mb-3 rounded-lg flex justify-between items-center">
+                class="border p-4 mb-3 rounded-lg flex justify-between items-center bg-gray-200">
                 <div>
                     <p class="font-semibold text-lg">{{ task.title }}</p>
                     <p class="text-gray-700">{{ task.description }}</p>

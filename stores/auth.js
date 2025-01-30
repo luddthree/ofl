@@ -21,27 +21,52 @@ export const useAuthStore = defineStore('auth', {
         localStorage.removeItem('auth_token')
       }
     },
+    async updateProfile(name, email) {
+      try {
+        const response = await $fetch('http://localhost:8000/api/user/profile', {
+          method: 'PUT',
+          headers: { Authorization: `Bearer ${this.token}` },
+          body: { name, email }
+        })
+        this.user = response.user
+        alert('Profile updated successfully!')
+      } catch (error) {
+        console.error('Failed to update profile:', error)
+      }
+    },
+    async updatePassword(currentPassword, newPassword, confirmNewPassword) {
+      try {
+        await $fetch('http://localhost:8000/api/user/password', {
+          method: 'PUT',
+          headers: { Authorization: `Bearer ${this.token}` },
+          body: { current_password: currentPassword, new_password: newPassword, new_password_confirmation: confirmNewPassword }
+        })
+        alert('Password updated successfully!')
+      } catch (error) {
+        console.error('Failed to update password:', error)
+      }
+    },
     async fetchUser() {
-        if (this.token) {
-          try {
-            const response = await $fetch('http://localhost:8000/api/user', {
-              headers: {
-                Authorization: `Bearer ${this.token}`,
-              },
-            })
-            this.user = response.user
-            console.log('Fetched user:', this.user) // Log user details
-          } catch (error) {
-            console.error('Failed to fetch user:', error)
-            this.clearToken()
-            throw error
-          }
-        } else {
-          console.error('No token found. User is not authenticated.')
-          throw new Error('No token found')
+      if (this.token) {
+        try {
+          const response = await $fetch('http://localhost:8000/api/user', {
+            headers: {
+              Authorization: `Bearer ${this.token}`,
+            },
+          })
+          this.user = response.user
+          console.log('Fetched user:', this.user) // Log user details
+        } catch (error) {
+          console.error('Failed to fetch user:', error)
+          this.clearToken()
+          throw error
         }
-      }  
-      ,      
+      } else {
+        console.error('No token found. User is not authenticated.')
+        throw new Error('No token found')
+      }
+    }
+    ,
     // Add a method to initialize the store
     initialize() {
       console.log('Initializing auth store') // Debug log

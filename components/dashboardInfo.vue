@@ -1,6 +1,6 @@
 <template>
     <!-- User Info -->
-    <div class="mb-6 p-4 border rounded">
+    <div class="mb-6 p-4">
         <p class="text-lg font-semibold">Welcome, {{ authStore.user?.name }}!</p>
         <p>Email: {{ authStore.user?.email }}</p>
         <p>Role: {{ authStore.user?.role }}</p>
