@@ -5,6 +5,7 @@
     <dashboardInfo />
     <!-- <createTask /> -->
     <taskList />
+    <!-- <createdTask /> -->
     <completedTask />
 
   </div>
@@ -15,6 +16,8 @@ import dashboardInfo from '~/components/dashboardInfo.vue'
 // import createTask from '~/components/createTask.vue'
 import taskList from '~/components/taskList.vue'
 import completedTask from '~/components/completedTask.vue'
+// import createdTask from '~/components/createdTask.vue'
+
 
 </script>
 
