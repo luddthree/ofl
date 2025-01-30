@@ -1,14 +1,22 @@
-
-
-<script setup>
-definePageMeta({
-  middleware: 'auth',
-});
-</script>
-
 <template>
-  <div>
-    <h1 class="text-2xl font-bold">Admin Panel</h1>
-    <p>Welcome to the admin page. Only users with the admin role can access this page.</p>
+  <div class="container mx-auto p-6">
+    <h1 class="text-2xl font-bold mb-4">Administrator Dashboard</h1>
+
+    <dashboardInfo />
+    <createTask />
+    <taskList />
+    <completedTask />
+
   </div>
 </template>
+
+<script setup>
+import dashboardInfo from '~/components/dashboardInfo.vue'
+import createTask from '~/components/createTask.vue'
+import taskList from '~/components/taskList.vue'
+import completedTask from '~/components/completedTask.vue'
+
+</script>
+
+<style scoped>
+</style>

@@ -3,7 +3,7 @@ import { useAuthStore } from '~/stores/auth'
 export default defineNuxtRouteMiddleware(async (to, from) => {
   const authStore = useAuthStore()
 
-  const publicRoutes = ['/login', '/dashboard', '/register']
+  const publicRoutes = ['/login', '/dashboard', '/register', '/admin']
   if (publicRoutes.includes(to.path)) {
     console.log('Public route accessed:', to.path)
     return
@@ -30,13 +30,4 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     }
   }
 
-  if (to.path === '/admin') {
-    console.log('User role:', authStore.user.role)
-    if (authStore.user.role !== 'admin') {
-      console.log('Non-admin user attempting to access /admin. Redirecting...')
-      return navigateTo('/')
-    }
-  }
-
-  console.log('Access granted to:', to.path)
 })
