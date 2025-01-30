@@ -1,7 +1,6 @@
 <template>
     <div class="max-w-md mx-auto mt-10">
       <h1 class="text-2xl font-bold mb-4">Login</h1>
-      <p> {{ authStore.user?.name }}</p>
       <form @submit.prevent="login">
         <div class="mb-4">
           <label for="email" class="block text-sm font-medium">Email</label>
