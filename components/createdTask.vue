@@ -9,6 +9,12 @@
                     <p class="font-semibold text-lg">{{ task.title }}</p>
                     <p class="text-gray-700">{{ task.description }}</p>
                     <p class="text-sm text-gray-500">Assigned to: {{ task.assigned_to }}</p>
+                    
+                    <!-- Display Deadline -->
+                    <p class="text-sm text-gray-600">
+                        Deadline: {{ formatDate(task.deadline) }}
+                    </p>
+
                     <p class="text-sm mt-1" :class="task.completed ? 'text-green-600' : 'text-yellow-500'">
                         Status: {{ task.completed ? 'Completed' : 'Pending' }}
                     </p>
@@ -37,6 +43,9 @@
                 <input v-model="editAssignedTo" placeholder="Assign to (Email)"
                     class="border p-2 w-full mb-4 rounded" />
 
+                <!-- Add Deadline Input -->
+                <input type="date" v-model="editDeadline" class="border p-2 w-full mb-4 rounded" />
+
                 <div class="flex justify-end space-x-2">
                     <button @click="saveTask" class="bg-blue-500 text-white p-2 rounded">
                         Save Changes
@@ -50,6 +59,7 @@
     </div>
 </template>
 
+
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useTaskStore } from '~/stores/task'
@@ -60,17 +70,24 @@ const editTaskId = ref(null)
 const editTitle = ref('')
 const editDescription = ref('')
 const editAssignedTo = ref('')
+const editDeadline = ref('') // Add deadline field
+
+// Format deadline date
+const formatDate = (dateString) => {
+    return dateString ? new Date(dateString).toLocaleDateString() : 'No deadline';
+}
 
 const editTask = (task) => {
     editTaskId.value = task.id
     editTitle.value = task.title
     editDescription.value = task.description
     editAssignedTo.value = task.assigned_to
+    editDeadline.value = task.deadline ? task.deadline.split('T')[0] : '' // Format date for input
     isEditing.value = true
 }
 
 const saveTask = async () => {
-    await taskStore.updateTask(editTaskId.value, editTitle.value, editDescription.value, editAssignedTo.value)
+    await taskStore.updateTask(editTaskId.value, editTitle.value, editDescription.value, editAssignedTo.value, editDeadline.value)
     isEditing.value = false
 }
 

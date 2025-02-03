@@ -9,7 +9,13 @@
                     <p class="font-semibold text-lg">{{ task.title }}</p>
                     <p class="text-gray-700">{{ task.description }}</p>
                     <p class="text-sm text-gray-500">Created by: {{ task.created_by }}</p>
-                    <p class="text-green-600">Completed</p>
+                    
+                    <!-- Display Deadline -->
+                    <p class="text-sm text-gray-600">
+                        Deadline: {{ formatDate(task.deadline) }}
+                    </p>
+
+                    <p class="text-green-600 font-semibold">Completed</p>
                 </div>
             </li>
         </ul>
@@ -26,11 +32,17 @@ import { useTaskStore } from '~/stores/task'
 const authStore = useAuthStore()
 const taskStore = useTaskStore()
 
+// Format deadline date
+const formatDate = (dateString) => {
+    return dateString ? new Date(dateString).toLocaleDateString() : 'No deadline';
+}
+
 onMounted(() => {
     authStore.fetchUser()
     taskStore.fetchTasks()
 })
 </script>
+
 
 <style scoped>
 /* Optional styling */

@@ -9,6 +9,11 @@
                     <p class="font-semibold text-lg">{{ task.title }}</p>
                     <p class="text-gray-700">{{ task.description }}</p>
                     <p class="text-sm text-gray-500">Created by: {{ task.created_by }}</p>
+
+                    <!-- Display Deadline -->
+                    <p class="text-sm text-gray-600">
+                        Deadline: {{ formatDate(task.deadline) }}
+                    </p>
                 </div>
 
                 <div class="flex space-x-2">
@@ -23,11 +28,17 @@
     </div>
 </template>
 
+
 <script setup>
 import { onMounted } from 'vue'
 import { useTaskStore } from '~/stores/task'
 
 const taskStore = useTaskStore()
+
+// Format deadline date
+const formatDate = (dateString) => {
+    return dateString ? new Date(dateString).toLocaleDateString() : 'No deadline';
+}
 
 onMounted(() => {
     taskStore.fetchTasks()

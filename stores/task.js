@@ -38,39 +38,38 @@ export const useTaskStore = defineStore('task', {
       }
     },
 
-    async createTask(title, description, assignedTo) {
+    async createTask(title, description, assignedTo, deadline) {
       try {
-        const authStore = useAuthStore()
-        const newTask = await $fetch('http://localhost:8000/api/tasks', {
-          method: 'POST',
-          headers: { Authorization: `Bearer ${authStore.token}` },
-          body: { title, description, assigned_to: assignedTo }
-        })
-        this.tasks.push(newTask)
+          const authStore = useAuthStore()
+          const newTask = await $fetch('http://localhost:8000/api/tasks', {
+              method: 'POST',
+              headers: { Authorization: `Bearer ${authStore.token}` },
+              body: { title, description, assigned_to: assignedTo, deadline }
+          })
+          this.tasks.push(newTask.task) // Store the new task
       } catch (error) {
-        console.error('Failed to create task:', error)
+          console.error('Failed to create task:', error)
       }
-    },
-
-    async updateTask(taskId, title, description, assignedTo) {
-      try {
-        const authStore = useAuthStore();
+  },
+  async updateTask(taskId, title, description, assignedTo, deadline) {
+    try {
+        const authStore = useAuthStore()
         const updatedTask = await $fetch(`http://localhost:8000/api/tasks/${taskId}`, {
-          method: 'PUT',
-          headers: { Authorization: `Bearer ${authStore.token}` },
-          body: { title, description, assigned_to: assignedTo }
-        });
+            method: 'PUT',
+            headers: { Authorization: `Bearer ${authStore.token}` },
+            body: { title, description, assigned_to: assignedTo, deadline }
+        })
     
         // Update the task in the store
-        const index = this.tasks.findIndex(task => task.id === taskId);
-        if (index !== -1) this.tasks[index] = updatedTask.task;
-    
-        const createdIndex = this.createdTasks.findIndex(task => task.id === taskId);
-        if (createdIndex !== -1) this.createdTasks[createdIndex] = updatedTask.task;
-      } catch (error) {
-        console.error('Failed to update task:', error);
-      }
-    },    
+        const index = this.tasks.findIndex(task => task.id === taskId)
+        if (index !== -1) this.tasks[index] = updatedTask.task
+
+        const createdIndex = this.createdTasks.findIndex(task => task.id === taskId)
+        if (createdIndex !== -1) this.createdTasks[createdIndex] = updatedTask.task
+    } catch (error) {
+        console.error('Failed to update task:', error)
+    }
+},
 
     async completeTask(taskId) {
       try {
