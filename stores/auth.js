@@ -56,6 +56,8 @@ export const useAuthStore = defineStore('auth', {
           })
           this.user = response.user
           console.log('Fetched user:', this.user) // Log user details
+          console.log('role ' + this.user?.role)
+
         } catch (error) {
           console.error('Failed to fetch user:', error)
           this.clearToken()
@@ -70,15 +72,41 @@ export const useAuthStore = defineStore('auth', {
     // Add a method to initialize the store
     initialize() {
       console.log('Initializing auth store') // Debug log
+
+    
       if (process.client) {
-        this.token = localStorage.getItem('auth_token')
-        console.log('Token found in localStorage:', this.token) // Debug log
-        if (this.token) {
-          this.fetchUser()
+        const storedToken = localStorage.getItem('auth_token')
+        console.log('Token found in localStorage:', storedToken) // Debug log
+    
+        // Skip the check if the current route is public
+        const publicRoutes = ['/', '/register', '/login']
+        const currentRoute = window.location.pathname
+    
+        if (publicRoutes.includes(currentRoute)) {
+          console.log('Public route accessed:', currentRoute)
+          return // Allow access to public routes
         }
-      } else {
-        console.log('Running on server. Skipping token check.') // Debug log
+    
+        if (storedToken) {
+          this.token = storedToken
+          return this.fetchUser().catch(() => {
+            console.error('Invalid token. Clearing auth state.')
+            this.clearToken()
+            navigateTo('/login') // Redirect only if token is invalid
+          })
+        } else {
+          console.log('No token found. Redirecting to login...')
+          navigateTo('/login') // Redirect to login if no token is found
+        }
       }
+      
     },
+
+    isAdmin() {
+      console.log('admi func role ' + this.user?.role)
+      return this.user?.role === 'admin' // Adjust based on your user data structure
+    },
+    
+    
   },
 })

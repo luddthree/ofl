@@ -18,6 +18,10 @@ import createTask from '~/components/createTask.vue'
 // import completedTask from '~/components/completedTask.vue'
 import createdTask from '~/components/createdTask.vue'
 
+definePageMeta({
+  middleware: 'admin',  // Apply the admin middleware here
+})
+
 </script>
 
 <style scoped>

@@ -12,6 +12,9 @@
 </template>
 
 <script setup>
+definePageMeta({
+  middleware: 'auth'
+})
 import dashboardInfo from '~/components/dashboardInfo.vue'
 // import createTask from '~/components/createTask.vue'
 import taskList from '~/components/taskList.vue'

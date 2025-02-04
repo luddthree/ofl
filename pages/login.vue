@@ -35,7 +35,6 @@
   import { ref } from 'vue'
   import { useAuthStore } from '~/stores/auth'
   
-  // Initialize the form object
   const form = ref({
     email: '',
     password: '',
@@ -53,6 +52,7 @@
   
       if (response.token) {
         authStore.setToken(response.token)
+        await authStore.fetchUser() // Ensure user data is loaded
         navigateTo('/dashboard')
       }
     } catch (err) {
@@ -61,6 +61,7 @@
     }
   }
   </script>
+  
   
   <style scoped>
   /* Optional styling */
