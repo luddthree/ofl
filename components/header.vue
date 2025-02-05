@@ -1,7 +1,8 @@
 <template>
   <header class="bg-gray-800 text-white p-4">
     <div class="flex items-center justify-between">
-      <div class="text-lg font-semibold">OFL</div>
+      <!-- <div class="text-lg font-semibold">OFL</div> -->
+      <NuxtLink to="/" class="text-lg font-semibold">OFL</NuxtLink>
       <div class="relative">
         <button @click="toggleDropdown" class="bg-gray-700 p-2 rounded-lg hover:bg-gray-600 focus:outline-none">
           {{ authStore.user?.name || 'Menu' }}
@@ -27,7 +28,7 @@
               <a href="/admin" class="block px-4 py-2 hover:bg-gray-100">Admin</a>
             </li>
             <li v-if="authStore.token">
-              <a @click="logout" href="/login" class="block px-4 py-2 hover:bg-gray-100">Log Out</a>
+              <a @click="logout" href="/login" class="block px-4 py-2 text-red-600 hover:bg-gray-100">Log Out</a>
             </li>
           </ul>
         </div>

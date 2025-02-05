@@ -72,38 +72,36 @@ export const useAuthStore = defineStore('auth', {
     // Add a method to initialize the store
     initialize() {
       console.log('Initializing auth store') // Debug log
-
     
       if (process.client) {
         const storedToken = localStorage.getItem('auth_token')
         console.log('Token found in localStorage:', storedToken) // Debug log
     
-        // Skip the check if the current route is public
+        // Always set the token if available (even on public routes)
+        if (storedToken) {
+          this.token = storedToken
+          this.fetchUser().catch(() => {
+            console.error('Invalid token. Clearing auth state.')
+            this.clearToken()
+            navigateTo('/login') // Redirect only if the token is invalid
+          })
+          return
+        }
+    
+        // If no token, only redirect when visiting a protected route
         const publicRoutes = ['/', '/register', '/login']
         const currentRoute = window.location.pathname
     
-        if (publicRoutes.includes(currentRoute)) {
-          console.log('Public route accessed:', currentRoute)
-          return // Allow access to public routes
-        }
-    
-        if (storedToken) {
-          this.token = storedToken
-          return this.fetchUser().catch(() => {
-            console.error('Invalid token. Clearing auth state.')
-            this.clearToken()
-            navigateTo('/login') // Redirect only if token is invalid
-          })
-        } else {
+        if (!publicRoutes.includes(currentRoute)) {
           console.log('No token found. Redirecting to login...')
-          navigateTo('/login') // Redirect to login if no token is found
+          navigateTo('/login')
         }
       }
-      
     },
+    
 
     isAdmin() {
-      console.log('admi func role ' + this.user?.role)
+      console.log('admin func role ' + this.user?.role)
       return this.user?.role === 'admin' // Adjust based on your user data structure
     },
     
