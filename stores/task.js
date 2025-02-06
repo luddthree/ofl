@@ -51,6 +51,20 @@ export const useTaskStore = defineStore('task', {
           console.error('Failed to create task:', error)
       }
   },
+
+    async sendEmail() {
+      try {
+          const authStore = useAuthStore()
+          const email = await $fetch('http://localhost:8000/api/tasks/emsend', {
+              method: 'POST',
+              headers: { Authorization: `Bearer ${authStore.token}` },
+          })
+          this.tasks.push(email.task) // Store the new task
+      } catch (error) {
+          console.error('Failed to create task:', error)
+      }
+  },
+
   async updateTask(taskId, title, description, assignedTo, deadline) {
     try {
         const authStore = useAuthStore()

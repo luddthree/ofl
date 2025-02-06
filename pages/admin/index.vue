@@ -8,6 +8,8 @@
     <!-- <completedTask /> -->
     <createdTask />
 
+    <mail />
+
   </div>
 </template>
 
@@ -17,6 +19,7 @@ import createTask from '~/components/createTask.vue'
 // import taskList from '~/components/taskList.vue'
 // import completedTask from '~/components/completedTask.vue'
 import createdTask from '~/components/createdTask.vue'
+import mail from '~/components/mail.vue'
 
 definePageMeta({
   middleware: 'admin',  // Apply the admin middleware here
