@@ -67,7 +67,7 @@
     email: '',
     password: '',
     password_confirmation: '',
-    role: 'user' // Standard rolle som "employee"
+    role: 'user' // Standard rolle som "user"
   })
   
   // Brukes for å vise feilmeldinger
@@ -77,22 +77,21 @@
   async function register() {
     try {
       const response = await $fetch('/api/register', {
-        baseURL: useRuntimeConfig().public.apiBase, // Bruker Laravel API-baseURL
-        method: 'POST', // HTTP-metoden
-        body: form.value, // Data fra skjemaet
+        baseURL: useRuntimeConfig().public.apiBase, 
+        method: 'POST', 
+        body: form.value, 
       })
-      alert('User registered successfully!') // Suksessmelding
-      console.log(response) // Valgfritt: logg responsen
+      alert('User registered successfully!') 
+      console.log(response) 
     } catch (err) {
-      error.value = err?.data?.message || 'An error occurred.' // Viser feilmeldinger
-      console.error(err) // Valgfritt: logg feil
-      console.log(form.value) // Valgfritt: logg skjemadata
+      error.value = err?.data?.message || 'An error occurred.' 
+      console.error(err) 
+      console.log(form.value) 
     }
   }
   </script>
   
   
   <style scoped>
-  /* Optional styling */
   </style>
   

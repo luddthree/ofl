@@ -1,7 +1,6 @@
 <template>
   <header class="bg-gray-800 text-white p-4">
     <div class="flex items-center justify-between">
-      <!-- <div class="text-lg font-semibold">OFL</div> -->
       <NuxtLink to="/" class="text-lg font-semibold">OFL</NuxtLink>
       <div class="relative">
         <button @click="toggleDropdown" class="bg-gray-700 p-2 rounded-lg hover:bg-gray-600 focus:outline-none">
@@ -9,7 +8,7 @@
         </button>
         <div v-if="isDropdownOpen" class="absolute right-0 mt-2 bg-white text-black rounded-md shadow-lg w-48">
           <ul>
-            <!-- Show Login/Register if not authenticated -->
+            <!-- vis Login/Register hvis brukern ikke er autentisert -->
             <li v-if="!authStore.token">
               <a href="/login" class="block px-4 py-2 hover:bg-gray-100">Log in</a>
             </li>
@@ -17,7 +16,7 @@
               <a href="/register" class="block px-4 py-2 hover:bg-gray-100">Register</a>
             </li>
 
-            <!-- Show Dashboard, Profile, Admin, Logout if authenticated -->
+            <!-- vis Dashboard, Profile, Admin, Logout hvis er autentisert -->
             <li v-if="authStore.token">
               <a href="/dashboard" class="block px-4 py-2 hover:bg-gray-100">Dashboard</a>
             </li>
@@ -50,6 +49,7 @@ onMounted(() => {
   }
 })
 
+// dropdown toggle 
 const toggleDropdown = () => {
   isDropdownOpen.value = !isDropdownOpen.value
 }

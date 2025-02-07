@@ -2,8 +2,6 @@ import { useAuthStore } from '~/stores/auth'
 
 export default defineNuxtRouteMiddleware(async () => {
   const authStore = useAuthStore()
-
-  // Only run this check on the client (browser)
   if (process.client) {
     console.log('Running middleware on the client')
 

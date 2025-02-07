@@ -10,7 +10,6 @@ definePageMeta({
       <h1 class="text-4xl font-bold text-blue-600 mb-4">OFL</h1>
       <p class="text-lg text-gray-700 mb-6">An efficient way to assign and complete tasks.</p>
       
-      <!-- Features Section -->
       <div class="grid md:grid-cols-2 gap-8 text-left">
         <div class="bg-white p-6 rounded-lg shadow-md">
           <h2 class="text-xl font-semibold text-gray-800 mb-3">Admin Users</h2>
@@ -24,7 +23,6 @@ definePageMeta({
         </div>
       </div>
       
-      <!-- Call to Action -->
       <div class="mt-12">
         <h2 class="text-2xl font-bold text-gray-800">Get Started Now</h2>
         <p class="text-gray-600 mb-4">Sign up as an admin or user and start managing tasks today.</p>

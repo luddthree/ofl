@@ -22,7 +22,7 @@ import createdTask from '~/components/createdTask.vue'
 import mail from '~/components/mail.vue'
 
 definePageMeta({
-  middleware: 'admin',  // Apply the admin middleware here
+  middleware: 'admin', 
 })
 
 </script>

@@ -1,7 +1,7 @@
 <template>
     <div class="container mx-auto py-6">
         <h1 class="text-2xl font-bold mb-4">My Assigned Tasks</h1>
-
+<!-- gitte opgaver -->
         <ul v-if="taskStore.tasks.length">
             <li v-for="task in taskStore.tasks" :key="task.id"
                 class="border p-4 mb-3 rounded-lg flex justify-between items-center bg-gray-200">
@@ -10,7 +10,6 @@
                     <p class="text-gray-700">{{ task.description }}</p>
                     <p class="text-sm text-gray-500">Created by: {{ task.created_by }}</p>
 
-                    <!-- Display Deadline -->
                     <p class="text-sm text-gray-600">
                         Deadline: {{ formatDate(task.deadline) }}
                     </p>

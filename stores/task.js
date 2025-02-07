@@ -3,11 +3,12 @@ import { useAuthStore } from '~/stores/auth'
 
 export const useTaskStore = defineStore('task', {
   state: () => ({
-    tasks: [], // Ensure tasks are initialized
-    completedTasks: [], // Ensure completedTasks are initialized
-    createdTasks: [] // Ensure this is initialized
+    tasks: [], 
+    completedTasks: [], 
+    createdTasks: [] 
   }),
   actions: {
+    // henter oppgaver
     async fetchTasks() {
       try {
         const authStore = useAuthStore()
@@ -16,12 +17,12 @@ export const useTaskStore = defineStore('task', {
         })
         this.tasks = response.assigned_tasks.filter(task => !task.completed)
         this.completedTasks = response.assigned_tasks.filter(task => task.completed)
-        this.createdTasks = response.created_tasks // Store created tasks
+        this.createdTasks = response.created_tasks 
       } catch (error) {
         console.error('Failed to fetch tasks:', error)
       }
     },
-
+// sletter oppgave
     async deleteTask(taskId) {
       try {
         const authStore = useAuthStore();
@@ -37,7 +38,7 @@ export const useTaskStore = defineStore('task', {
         console.error('Failed to delete task:', error);
       }
     },
-
+// oppretter oppgave
     async createTask(title, description, assignedTo, deadline) {
       try {
           const authStore = useAuthStore()
@@ -46,12 +47,12 @@ export const useTaskStore = defineStore('task', {
               headers: { Authorization: `Bearer ${authStore.token}` },
               body: { title, description, assigned_to: assignedTo, deadline }
           })
-          this.tasks.push(newTask.task) // Store the new task
+          this.tasks.push(newTask.task) 
       } catch (error) {
           console.error('Failed to create task:', error)
       }
   },
-
+// sender epost
     async sendEmail() {
       try {
           const authStore = useAuthStore()
@@ -59,12 +60,13 @@ export const useTaskStore = defineStore('task', {
               method: 'POST',
               headers: { Authorization: `Bearer ${authStore.token}` },
           })
-          this.tasks.push(email.task) // Store the new task
+          this.tasks.push(email.task) 
       } catch (error) {
           console.error('Failed to create task:', error)
       }
   },
 
+  // oppdaterer oppgave
   async updateTask(taskId, title, description, assignedTo, deadline) {
     try {
         const authStore = useAuthStore()
@@ -84,7 +86,7 @@ export const useTaskStore = defineStore('task', {
         console.error('Failed to update task:', error)
     }
 },
-
+// fullfør oppgave
     async completeTask(taskId) {
       try {
         const authStore = useAuthStore()
@@ -97,8 +99,8 @@ export const useTaskStore = defineStore('task', {
         const taskIndex = this.tasks.findIndex(task => task.id === taskId)
         if (taskIndex !== -1) {
           const completedTask = { ...this.tasks[taskIndex], completed: true }
-          this.tasks.splice(taskIndex, 1) // Remove from tasks
-          this.completedTasks.push(completedTask) // Add to completedTasks
+          this.tasks.splice(taskIndex, 1) 
+          this.completedTasks.push(completedTask) 
         }
       } catch (error) {
         console.error('Failed to complete task:', error)

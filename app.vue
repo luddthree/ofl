@@ -15,7 +15,6 @@ const authStore = useAuthStore()
 onMounted(() => {
   console.log('Running auth store initialize() in onMounted')
   authStore.initialize()
-  // authStore.fetchUser()
 
 })
 

@@ -52,7 +52,7 @@
   
       if (response.token) {
         authStore.setToken(response.token)
-        await authStore.fetchUser() // Ensure user data is loaded
+        await authStore.fetchUser()
         navigateTo('/dashboard')
       }
     } catch (err) {
@@ -64,5 +64,4 @@
   
   
   <style scoped>
-  /* Optional styling */
   </style>

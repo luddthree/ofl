@@ -1,26 +1,28 @@
-// stores/auth.js
 import { defineStore } from 'pinia'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    token: null, // Initialize as null
+    token: null,
     user: null,
   }),
   actions: {
+    // setter auth token
     setToken(token) {
-      console.log('Setting token:', token) // Debug log
+      console.log('Setting token:', token) 
       this.token = token
       if (process.client) {
         localStorage.setItem('auth_token', token)
       }
     },
+    // fjerner auth token
     clearToken() {
-      console.log('Clearing token') // Debug log
+      console.log('Clearing token') 
       this.token = null
       if (process.client) {
         localStorage.removeItem('auth_token')
       }
     },
+    // oppdaterer brukerprofil
     async updateProfile(name, email) {
       try {
         const response = await $fetch('http://localhost:8000/api/user/profile', {
@@ -34,6 +36,7 @@ export const useAuthStore = defineStore('auth', {
         console.error('Failed to update profile:', error)
       }
     },
+    // oppdaterer passord
     async updatePassword(currentPassword, newPassword, confirmNewPassword) {
       try {
         await $fetch('http://localhost:8000/api/user/password', {
@@ -46,6 +49,7 @@ export const useAuthStore = defineStore('auth', {
         console.error('Failed to update password:', error)
       }
     },
+    // henter bruker
     async fetchUser() {
       if (this.token) {
         try {
@@ -55,7 +59,7 @@ export const useAuthStore = defineStore('auth', {
             },
           })
           this.user = response.user
-          console.log('Fetched user:', this.user) // Log user details
+          console.log('Fetched user:', this.user) 
           console.log('role ' + this.user?.role)
 
         } catch (error) {
@@ -69,13 +73,14 @@ export const useAuthStore = defineStore('auth', {
       }
     }
     ,
-    // Add a method to initialize the store
+
+    // henter bruker
     initialize() {
-      console.log('Initializing auth store') // Debug log
+      console.log('Initializing auth store') 
     
       if (process.client) {
         const storedToken = localStorage.getItem('auth_token')
-        console.log('Token found in localStorage:', storedToken) // Debug log
+        console.log('Token found in localStorage:', storedToken) 
     
         // Always set the token if available (even on public routes)
         if (storedToken) {
@@ -83,7 +88,7 @@ export const useAuthStore = defineStore('auth', {
           this.fetchUser().catch(() => {
             console.error('Invalid token. Clearing auth state.')
             this.clearToken()
-            navigateTo('/login') // Redirect only if the token is invalid
+            navigateTo('/login') 
           })
           return
         }
@@ -99,10 +104,10 @@ export const useAuthStore = defineStore('auth', {
       }
     },
     
-
+// sjekker om bruker er admin
     isAdmin() {
       console.log('admin func role ' + this.user?.role)
-      return this.user?.role === 'admin' // Adjust based on your user data structure
+      return this.user?.role === 'admin' 
     },
     
     

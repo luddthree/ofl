@@ -1,10 +1,9 @@
 <template>
-    <!-- User Info -->
+    <!-- bruker info -->
     <div class="mb-6 p-4">
         <p class="text-lg font-semibold">Welcome, {{ authStore.user?.name }}!</p>
         <p>Email: {{ authStore.user?.email }}</p>
         <p>Role: {{ authStore.user?.role }}</p>
-        <!-- <button @click="logout" class="bg-red-500 text-white p-2 rounded mt-2">Logout</button> -->
     </div>
 </template>
 

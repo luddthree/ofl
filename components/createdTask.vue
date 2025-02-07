@@ -1,7 +1,7 @@
 <template>
     <div class="container mx-auto py-6">
         <h1 class="text-2xl font-bold mb-4">My tasks</h1>
-
+<!-- mine oppgaver -->
         <ul v-if="taskStore.createdTasks?.length">
             <li v-for="task in taskStore.createdTasks" :key="task.id"
                 class="border p-4 mb-3 rounded-lg flex justify-between items-center bg-gray-200">
@@ -10,7 +10,6 @@
                     <p class="text-gray-700">{{ task.description }}</p>
                     <p class="text-sm text-gray-500">Assigned to: {{ task.assigned_to }}</p>
                     
-                    <!-- Display Deadline -->
                     <p class="text-sm text-gray-600">
                         Deadline: {{ formatDate(task.deadline) }}
                     </p>
@@ -33,7 +32,8 @@
 
         <p v-else class="text-gray-600">No tasks created by you.</p>
 
-        <!-- Edit Task Modal -->
+
+<!-- rediger oppgave popup -->
         <div v-if="isEditing" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
             <div class="bg-white p-6 rounded-lg w-96">
                 <h2 class="text-lg font-semibold mb-4">Edit Task</h2>
@@ -43,7 +43,6 @@
                 <input v-model="editAssignedTo" placeholder="Assign to (Email)"
                     class="border p-2 w-full mb-4 rounded" />
 
-                <!-- Add Deadline Input -->
                 <input type="date" v-model="editDeadline" class="border p-2 w-full mb-4 rounded" />
 
                 <div class="flex justify-end space-x-2">
@@ -70,27 +69,29 @@ const editTaskId = ref(null)
 const editTitle = ref('')
 const editDescription = ref('')
 const editAssignedTo = ref('')
-const editDeadline = ref('') // Add deadline field
+const editDeadline = ref('') 
 
-// Format deadline date
+// deadline 
 const formatDate = (dateString) => {
     return dateString ? new Date(dateString).toLocaleDateString() : 'No deadline';
 }
 
+// rediger oppgave
 const editTask = (task) => {
     editTaskId.value = task.id
     editTitle.value = task.title
     editDescription.value = task.description
     editAssignedTo.value = task.assigned_to
-    editDeadline.value = task.deadline ? task.deadline.split('T')[0] : '' // Format date for input
+    editDeadline.value = task.deadline ? task.deadline.split('T')[0] : '' 
     isEditing.value = true
 }
 
+// lagre endringer
 const saveTask = async () => {
     await taskStore.updateTask(editTaskId.value, editTitle.value, editDescription.value, editAssignedTo.value, editDeadline.value)
     isEditing.value = false
 }
-
+// hent oppgaver
 onMounted(() => {
     taskStore.fetchTasks()
 })
