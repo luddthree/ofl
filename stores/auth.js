@@ -6,31 +6,29 @@ export const useAuthStore = defineStore('auth', {
     user: null,
   }),
   actions: {
-    // Setter for auth token
+    // setter auth token
     setToken(token) {
-      console.log('Setting token:', token)
+      console.log('Setting token:', token) 
       this.token = token
       if (process.client) {
         localStorage.setItem('auth_token', token)
       }
     },
-    
-    // Clears the auth token
+    // fjerner auth token
     clearToken() {
-      console.log('Clearing token')
+      console.log('Clearing token') 
       this.token = null
       if (process.client) {
         localStorage.removeItem('auth_token')
       }
     },
-    
-    // Update profile
+    // oppdaterer brukerprofil
     async updateProfile(name, email) {
       try {
-        const response = await $fetch('/api/user/profile', {
+        const response = await $fetch('https://ofl.vang.li/api/user/profile', {
           method: 'PUT',
           headers: { Authorization: `Bearer ${this.token}` },
-          body: { name, email },
+          body: { name, email }
         })
         this.user = response.user
         alert('Profile updated successfully!')
@@ -38,33 +36,32 @@ export const useAuthStore = defineStore('auth', {
         console.error('Failed to update profile:', error)
       }
     },
-
-    // Update password
+    // oppdaterer passord
     async updatePassword(currentPassword, newPassword, confirmNewPassword) {
       try {
-        await $fetch('/api/user/password', {
+        await $fetch('https://ofl.vang.li/api/user/password', {
           method: 'PUT',
           headers: { Authorization: `Bearer ${this.token}` },
-          body: { current_password: currentPassword, new_password: newPassword, new_password_confirmation: confirmNewPassword },
+          body: { current_password: currentPassword, new_password: newPassword, new_password_confirmation: confirmNewPassword }
         })
         alert('Password updated successfully!')
       } catch (error) {
         console.error('Failed to update password:', error)
       }
     },
-
-    // Fetch the current user details
+    // henter bruker
     async fetchUser() {
       if (this.token) {
         try {
-          const response = await $fetch('/api/user', {
+          const response = await $fetch('https://ofl.vang.li/api/user', {
             headers: {
               Authorization: `Bearer ${this.token}`,
             },
           })
           this.user = response.user
-          console.log('Fetched user:', this.user)
+          console.log('Fetched user:', this.user) 
           console.log('role ' + this.user?.role)
+
         } catch (error) {
           console.error('Failed to fetch user:', error)
           this.clearToken()
@@ -74,41 +71,45 @@ export const useAuthStore = defineStore('auth', {
         console.error('No token found. User is not authenticated.')
         throw new Error('No token found')
       }
-    },
+    }
+    ,
 
-    // Initialize auth store and manage the token from localStorage
+    // henter bruker
     initialize() {
-      console.log('Initializing auth store')
-
+      console.log('Initializing auth store') 
+    
       if (process.client) {
         const storedToken = localStorage.getItem('auth_token')
-        console.log('Token found in localStorage:', storedToken)
-
+        console.log('Token found in localStorage:', storedToken) 
+    
+        // Always set the token if available (even on public routes)
         if (storedToken) {
           this.token = storedToken
           this.fetchUser().catch(() => {
             console.error('Invalid token. Clearing auth state.')
             this.clearToken()
-            navigateTo('/login') // Redirect to login page if the token is invalid
+            navigateTo('/login') 
           })
           return
         }
-
-        // Redirect to login if no token and trying to access protected routes
+    
+        // If no token, only redirect when visiting a protected route
         const publicRoutes = ['/', '/register', '/login']
         const currentRoute = window.location.pathname
-
+    
         if (!publicRoutes.includes(currentRoute)) {
           console.log('No token found. Redirecting to login...')
           navigateTo('/login')
         }
       }
     },
-
-    // Check if the user has 'admin' role
+    
+// sjekker om bruker er admin
     isAdmin() {
       console.log('admin func role ' + this.user?.role)
-      return this.user?.role === 'admin'
+      return this.user?.role === 'admin' 
     },
+    
+    
   },
 })
