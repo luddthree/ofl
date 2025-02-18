@@ -16,15 +16,20 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useTaskStore } from '~/stores/task'
+import { useAuthStore } from '~/stores/auth'
 
+const authStore = useAuthStore()
 const taskStore = useTaskStore()
 const title = ref('')
 const description = ref('')
 const assignedTo = ref('')
-const deadline = ref('') 
+const deadline = ref('')
+const created_by = ref('') 
 
 onMounted(() => {
     taskStore.fetchTasks()
+    authStore.fetchUser()
+    created_by.value = authStore.user?.email  // Set the email as created_by
 })
 
 const createTask = () => {
@@ -32,13 +37,14 @@ const createTask = () => {
         alert('Title and email are required.')
         return
     }
-    
-    taskStore.createTask(title.value, description.value, assignedTo.value, deadline.value)
-    
+
+    taskStore.createTask(title.value, description.value, assignedTo.value, deadline.value, created_by.value)
+
+    // Clear form fields after task is created
     title.value = ''
     description.value = ''
     assignedTo.value = ''
-    deadline.value = '' 
+    deadline.value = ''
 }
-
 </script>
+
