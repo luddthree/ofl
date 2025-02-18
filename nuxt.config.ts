@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   plugins: ['~/plugins/auth.js'],
   runtimeConfig: {
     public: {
-      apiBase: 'https://ofl.vang.li/api' // Laravel API URL
+      apiBase: 'https://ofl.vang.li' // Laravel API URL
       // apiBase: 'localhost:8000' // Laravel API URL
     }
   },
