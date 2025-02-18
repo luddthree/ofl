@@ -31,36 +31,42 @@
     </div>
   </template>
   
-  <script setup>
-  import { ref } from 'vue'
-  import { useAuthStore } from '~/stores/auth'
-  
-  const form = ref({
-    email: '',
-    password: '',
-  })
-  
-  const error = ref(null)
-  const authStore = useAuthStore()
-  
-  async function login() {
-    try {
-      const response = await $fetch('http://127.0.0.1:8000/api/login', {
-        method: 'POST',
-        body: form.value,
-      })
-  
-      if (response.token) {
-        authStore.setToken(response.token)
-        await authStore.fetchUser()
-        navigateTo('/dashboard')
-      }
-    } catch (err) {
-      error.value = err?.data?.error || 'An error occurred during login.'
-      console.error(err)
+<script setup>
+import { ref } from 'vue'
+import { useAuthStore } from '~/stores/auth'
+
+const form = ref({
+  email: '',
+  password: '',
+})
+
+const error = ref(null)
+const authStore = useAuthStore()
+
+// Login function that posts form data to the login API endpoint
+async function login() {
+  try {
+    const response = await $fetch('/api/login', {
+      baseURL: useRuntimeConfig().public.apiBase, // Use API base URL
+      method: 'POST',
+      body: form.value,
+    })
+
+    if (response.token) {
+      // Store the token in the authentication store
+      authStore.setToken(response.token)
+      // Fetch the user data after login
+      await authStore.fetchUser()
+      // Navigate to the dashboard after successful login
+      navigateTo('/dashboard')
     }
+  } catch (err) {
+    error.value = err?.data?.error || 'An error occurred during login.'
+    console.error(err)
   }
-  </script>
+}
+</script>
+
   
   
   <style scoped>
