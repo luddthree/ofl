@@ -25,7 +25,8 @@ export const useAuthStore = defineStore('auth', {
     // oppdaterer brukerprofil
     async updateProfile(name, email) {
       try {
-        const response = await $fetch('https://ofl.vang.li/api/user/profile', {
+        const response = await $fetch('/api/user/profile', {
+          baseURL: useRuntimeConfig().public.apiBase, // Use API base URL
           method: 'PUT',
           headers: { Authorization: `Bearer ${this.token}` },
           body: { name, email }
@@ -39,7 +40,8 @@ export const useAuthStore = defineStore('auth', {
     // oppdaterer passord
     async updatePassword(currentPassword, newPassword, confirmNewPassword) {
       try {
-        await $fetch('https://ofl.vang.li/api/user/password', {
+        await $fetch('/api/user/password', {
+          baseURL: useRuntimeConfig().public.apiBase, // Use API base URL
           method: 'PUT',
           headers: { Authorization: `Bearer ${this.token}` },
           body: { current_password: currentPassword, new_password: newPassword, new_password_confirmation: confirmNewPassword }
@@ -53,7 +55,8 @@ export const useAuthStore = defineStore('auth', {
     async fetchUser() {
       if (this.token) {
         try {
-          const response = await $fetch('https://ofl.vang.li/api/user', {
+          const response = await $fetch('/api/user', {
+            baseURL: useRuntimeConfig().public.apiBase, // Use API base URL
             headers: {
               Authorization: `Bearer ${this.token}`,
             },

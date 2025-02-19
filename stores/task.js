@@ -12,7 +12,8 @@ export const useTaskStore = defineStore('task', {
     async fetchTasks() {
       try {
         const authStore = useAuthStore()
-        const response = await $fetch('https://ofl.vang.li/api/tasks', {
+        const response = await $fetch('/api/tasks', {
+          baseURL: useRuntimeConfig().public.apiBase, // Use API base URL
           headers: { Authorization: `Bearer ${authStore.token}` }
         })
         this.tasks = response.assigned_tasks.filter(task => !task.completed)
@@ -22,15 +23,17 @@ export const useTaskStore = defineStore('task', {
         console.error('Failed to fetch tasks:', error)
       }
     },
+
 // sletter oppgave
     async deleteTask(taskId) {
       try {
         const authStore = useAuthStore();
-        await $fetch(`https://ofl.vang.li/api/tasks/${taskId}`, {
+        await $fetch(`/api/tasks/${taskId}`, {
+          baseURL: useRuntimeConfig().public.apiBase, // Use API base URL
           method: 'DELETE',
           headers: { Authorization: `Bearer ${authStore.token}` }
         });
-    
+
         // Remove the task from the store
         this.tasks = this.tasks.filter(task => task.id !== taskId);
         this.createdTasks = this.createdTasks.filter(task => task.id !== taskId);
@@ -38,11 +41,13 @@ export const useTaskStore = defineStore('task', {
         console.error('Failed to delete task:', error);
       }
     },
+
 // oppretter oppgave
     async createTask(title, description, assignedTo, deadline) {
       try {
           const authStore = useAuthStore()
-          const newTask = await $fetch('https://ofl.vang.li/api/tasks', {
+          const newTask = await $fetch('/api/tasks', {
+              baseURL: useRuntimeConfig().public.apiBase, // Use API base URL
               method: 'POST',
               headers: { Authorization: `Bearer ${authStore.token}` },
               body: { title, description, assigned_to: assignedTo, deadline }
@@ -56,7 +61,8 @@ export const useTaskStore = defineStore('task', {
     async sendEmail() {
       try {
           const authStore = useAuthStore()
-          const email = await $fetch('https://ofl.vang.li/api/tasks/emsend', {
+          const email = await $fetch('/api/tasks/emsend', {
+              baseURL: useRuntimeConfig().public.apiBase, // Use API base URL
               method: 'POST',
               headers: { Authorization: `Bearer ${authStore.token}` },
           })
@@ -70,7 +76,8 @@ export const useTaskStore = defineStore('task', {
   async updateTask(taskId, title, description, assignedTo, deadline) {
     try {
         const authStore = useAuthStore()
-        const updatedTask = await $fetch(`https://ofl.vang.li/api/tasks/${taskId}`, {
+        const updatedTask = await $fetch(`/api/tasks/${taskId}`, {
+            baseURL: useRuntimeConfig().public.apiBase, // Use API base URL
             method: 'PUT',
             headers: { Authorization: `Bearer ${authStore.token}` },
             body: { title, description, assigned_to: assignedTo, deadline }
@@ -90,7 +97,8 @@ export const useTaskStore = defineStore('task', {
     async completeTask(taskId) {
       try {
         const authStore = useAuthStore()
-        await $fetch(`http://localhost:8000/api/tasks/${taskId}/complete`, {
+        await $fetch(`/api/tasks/${taskId}/complete`, {
+          baseURL: useRuntimeConfig().public.apiBase, // Use API base URL
           method: 'PUT',
           headers: { Authorization: `Bearer ${authStore.token}` }
         })
